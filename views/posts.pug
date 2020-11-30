@@ -10,3 +10,10 @@ html(lang="ja")
 				textarea(name="content" cols=40, rows=4)
 			div
 				button(type="submit") 投稿
+		a(href="/logout") ログアウト
+
+		h2 投稿一覧
+		each post in posts
+			p #{post.content}
+			p 投稿日時: #{post.createdAt}
+			hr
