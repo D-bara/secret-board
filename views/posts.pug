@@ -15,6 +15,7 @@ html(lang="ja")
 		form(action="/posts" method="post")
 			.form-group
 				textarea(name="content" cols="40", rows="4").form-control
+				input(type="hidden" name="oneTimeToken" value=oneTimeToken)
 			.form-group
 				button(type="submit").btn.btn-primary 投稿
 
@@ -23,10 +24,10 @@ html(lang="ja")
 			.card.my-3
 				.card-header
 					- var isPostedByAdmin = (post.postedBy === 'admin')
+					- var originalTrackingId = post.trackingCookie ? post.trackingCookie.split('_')[0] : ''
 					if isPostedByAdmin
 						span #{post.id} : 管理人 ★
 					else
-						- var originalTrackingId = post.trackingCookie ? post.trackingCookie.split('_')[0] : ''
 						span #{post.id} : ID:#{originalTrackingId}
 				.card-body
 					p.card-text(style="white-space:pre; overflow:auto") #{post.content}
@@ -39,6 +40,7 @@ html(lang="ja")
 					if isDeletable
 						form(method="post" action="/posts?delete=1")
 							input(type="hidden" name="id" value=post.id)
+							input(type="hidden" name="oneTimeToken" value=oneTimeToken)
 							button(type="submit").btn.btn-danger.float-right 削除
 
 			script(src="https://code.jquery.com/jquery-3.4.1.slim.min.js")
